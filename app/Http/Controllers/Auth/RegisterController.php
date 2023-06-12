@@ -81,6 +81,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
+
         $user = User::create([
             'name' => $data['name'],
             'courseModule' => $data['courseModule'],
@@ -101,7 +102,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'collegeChoice' => $data['collegeChoice'],
             'password' => Hash::make($data['password']),
-            'cert_Uploaded'=> 0,
+            'cert_Uploaded'=> 1,
             'aws_link' => 0,
             'course_module' => $data['courseModule'],
             'course_name' => $data['courseModule'],
@@ -125,9 +126,17 @@ class RegisterController extends Controller
 
         return $user;
 
+
+
     }
 
-
+    protected function redirectTo()
+    {
+        if (auth()->user()) {
+            return '/showStudent';
+        }
+        return '/home';
+    }
 
 
 }

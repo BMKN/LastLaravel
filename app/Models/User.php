@@ -53,7 +53,9 @@ class User extends Authenticatable
           'invoice_number',
           'date_of_course',
           'final_price' ,
-          'terms_and_conditions'
+          'terms_and_conditions',
+        'cert_Uploaded',
+        'aws_link'
 
     ];
 
