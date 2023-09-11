@@ -69,7 +69,7 @@
                                     </a>
                                     <a class="dropdown-item" href="{{ route('shoeStudentsToExport') }}">{{ __('Results') }}</a>
 
-                                @if(Auth::user()->id==5)
+                                @if(Auth::user()->id==1)
 {{--                                        need to change the above so it shows 1--}}
                                         <a class="dropdown-item" href="{{ route('shoeStudentsToExport') }}">{{ __('Edit Personal info') }}</a>
                                         <a class="dropdown-item" href="{{ route('studentedit') }}">{{ __('Admin') }}</a>
