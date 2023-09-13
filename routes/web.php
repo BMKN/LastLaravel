@@ -89,4 +89,8 @@ Route::get('/last-home/', [App\Http\Controllers\viewRegHome::class, 'showRegHome
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'courses'])->name('homeNotLoggedIn');
 Route::get('/home-guest', [App\Http\Controllers\unUnuthorisedUserHome::class, 'courses'])->name('home-guest');
-//Route::get('/home-guest', [App\Http\Controllers\unUnuthorisedUserHome::class, 'showGuestHome'])->name('home-show');
+
+
+Route::get('/course-search', [App\Http\Controllers\searchCourses::class, 'searchCoursesView']);
+Route::post('/course-search', [App\Http\Controllers\searchCourses::class, 'searchCourses']);
+Route::post('/course-update', [App\Http\Controllers\updateCourse::class, 'updateCourse']);

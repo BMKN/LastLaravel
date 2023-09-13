@@ -1,11 +1,15 @@
+<!DOCTYPE html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script><link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 @extends('layouts.app')
 @section('content')
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="container">
@@ -20,7 +24,7 @@
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a href="#" id = "add-post" class="nav-link">Create Post</a>
+                                        <a href="#" id = "add-course" class="nav-link ">Create Course</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" id = "export-csv" class="nav-link" >Export CSV</a>
@@ -30,6 +34,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" id = "custom-email-template" class="nav-link" >Email Customiser</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" id = "search-course" class="nav-link" >Search Course</a>
                                     </li>
 
                                 </ul>
@@ -469,6 +476,71 @@
                         </div>
                     </div>
                 </div>
+            <div class="modal" id="search-courses" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Search Courses</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <input id="search-course-name" type="text" class="form-control" name="course-name">
+                                <button class="btn btn-danger" type="button" id="clear-search">
+                                    <i class="fas fa-times">X</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="alert alert-success course-searched-data col-md-12" role="alert" style="display: none;">
+                            <!-- Your alert content here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary search-course-btn">Search</button>
+                            <button type="button" class="btn btn-secondary search-course-close" data-dismiss="modal" aria-label="Close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="modal" id  = "edit-search-courses" tabindex="-1" >
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title course-title"></h5>
+                            </div>
+                            <div class="modal-body">
+                                <label for="search-course-name" class="col-md-4 col-form-label text-md-end">{{ __('Edit Course') }}</label>
+
+                                <div class="col-md-12">
+                                    <label for="search-course-name" class="col-md-12 col-form-label ">{{ __('Edit Course Name') }}</label>
+
+                                    <input id="Edit-course-name" type="text" class="form-control" name="Edit-course-name">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="search-course-name" class="col-md-12 col-form-label ">{{ __('Edit Course Subject') }}</label>
+
+                                    <textarea id="Edit-course-subject" type="text" class="form-control" name="Edit-course-subjecte"></textarea>
+
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="search-course-name" class="col-md-12 col-form-label ">{{ __('Edit Course Content') }}</label>
+
+                                    <input id="Edit-course-content" type="text" class="form-control" name="Edit-course-content">
+                                </div>
+
+                            </div>
+                            <div class="alert alert-success course-searched-data-saved col-md-12" role="alert" style="display: none;">
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary Edit-course-btn">Save</button>
+                                <button type="button" class="btn btn-secondary edit-search-course-close" data-dismiss="modal"aria-label="Close">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal" id  = "create-post" tabindex="-1" >
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -597,7 +669,25 @@
 
 
 @endsection
+            <script type="text/javascript">
+                tinymce.init({
+                    selector: 'textarea.tinymce-editor',
+                    height: 300,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount', 'image'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_css: '//www.tiny.cloud/css/codepen.min.css'
+                });
+            </script>
 <script>
+
     $( document ).ready(function() {
         $( ".Search" ).click(function(e) {
             e.preventDefault();
@@ -632,7 +722,6 @@
             });
 
         });
-
 
 
         $(document).on('click','.edit-student',function(){
@@ -685,7 +774,11 @@
 
 
         });
-
+        tinymce.init({
+            selector: 'textarea#Edit-course-subject', // Replace this CSS selector to match the placeholder element for TinyMCE
+            plugins: 'code table lists',
+            toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+        });
         $('#clearSearch').on('click', function() {
             // Clear the value of Search input
             $('#Search').val('');
@@ -876,6 +969,94 @@
 
 
         });
+
+        $(document).on('click','.edit-course',function(e){
+
+            $('#edit-search-courses').modal('show');
+
+            var courseName = $(this).closest('.row').find('.course-name').first();
+            var courseSubject = $(this).closest('.row').find('.course-subject').first().val();
+            var courseContent = $(this).closest('.row').find('.course-content').first().val();
+            var courseName = courseName.val();
+            $('#Edit-course-name').val(courseName);
+            $('#Edit-course-subject').text(courseSubject);
+            $('#Edit-course-content').val(courseContent);
+            $('#edit-search-courses #Edit-course-content').val(sessionStorage.getItem('courseContent'));
+
+        });
+
+        $(document).on('click','#search-course',function(e){
+
+            $('#search-courses').modal('show');
+
+
+        });
+
+        $(document).on('click','.search-course-btn',function(e){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            e.preventDefault();
+            $('.course-searched-data').show();
+
+            $.ajax({
+                type:'POST',
+                url:"/course-search",
+                data:{
+                    courseName:$('#search-course-name').val()
+
+                },
+                success:function(courses){
+                    var json = JSON.parse(courses);
+
+                    for (let i = 0; i < json.length; i++) {
+
+                        $('.course-searched-data').append('<input type="hidden" value = "'+json[i]['id']+'" name = "id" class = "course-id col-4">  ');
+                        $('.course-searched-data').append('<div class="row"><div class="col-4"> <input type="text" value="' + json[i]['name'] + '" name="name" class="form-control course-name"> \n' +
+                            '</div> <div class="col-4"> <input type="button" class="btn btn-success form-control mb-4 edit-course" value = "Edit" >\n' +
+                            '<input type="hidden" value="' + json[i]['subject'] + '" name="name" class="form-control course-subject"> \n' +
+                            '<input type="hidden" value="' + json[i]['content'] + '" name="name" class="form-control course-content">\n' +
+                            '</div> </div>');
+
+                    }
+
+                }
+            });
+
+        });
+
+        $('#clear-search').on('click', '#clear-search', function () {
+            alert();
+        })
+
+        $(document).on('click','.Edit-course-btn',function(e){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            e.preventDefault();
+
+
+            $.ajax({
+                type:'POST',
+                url:"/course-update",
+                data:{
+                    courseName:$('#Edit-course-name').val(),
+                    courseSubject:$('#Edit-course-subject').val(),
+                    courseContent:$('#Edit-course-content').val()
+
+                },
+                success:function(editedCourse){
+                    var json = JSON.parse(editedCourse);
+                    $('.course-searched-data-saved').show().html(json.courseName+' Saved');
+                }
+            });
+
+        });
+
         $(document).on('click','.save-email-data',function(e){
             $.ajaxSetup({
                 headers: {
@@ -985,6 +1166,31 @@
 
             $('#create-post').modal('show');
 
+
+        });
+
+        $(document).on('click','.search-course-close',function(e){
+
+            $('#search-courses').modal('hide');
+
+
+        });
+
+        $(document).on('click','#clear-search',function(e){
+
+            $('.course-name').val('');
+            $('#search-course-name').val('');
+            $('#Edit-course-name').val('');
+            $('#Edit-course-content').val('');
+            $('.course-searched-data').html('');
+            $('.course-searched-data').hide();
+
+
+        });
+        $(document).on('click','.edit-search-course-close',function(e){
+                 sessionStorage.setItem('courseContent',$('#Edit-course-content').val());
+                $('#edit-search-courses').modal('hide');
+                $('.course-searched-data-saved').hide();
 
         });
 

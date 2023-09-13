@@ -19,13 +19,26 @@ class unUnuthorisedUserHome extends Controller
     public function showGuestHome(){
         return view('home-guest');
     }
-    public function courses() {
 
-        $courses =  DB::select("SELECT * from customEmailTemplates
+    public function courses()
+    {
+
+        $courses = DB::select("SELECT * from customEmailTemplates
                     Join course on customEmailTemplates.course_id = course.id
                     where customEmailTemplates.email_date >= CURDATE()");
 
-                    return view('home-guest')->with('courses', $courses);
+        if ($courses) {
+            foreach ($courses as $course) {
+                $events[] = [
+                    'title' => $course->name . ' (' . $course->name . ')',
+                    'start' => $course->email_date,
+                    'url' => $course->URL . '/' . $course->id
+                ];
+            }
+            return view('home-guest')->with('events', $events);
 
+        } else {
+            return view('home-guest');
+        }
     }
 }

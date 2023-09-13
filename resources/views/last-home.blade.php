@@ -2,6 +2,8 @@
 
 @section('content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-2">
@@ -11,29 +13,26 @@
                 <p>HPRA often accept the modular training courses from the UK and other  Member States (if an Irish ‘legal module’ is done)</p>
             </div>
             <div class="col-md-4 offset-2">
-                @foreach($courses as $course)
-                    <div class="mt-8  dark:bg-gray-800 overflow-hidden shadow-lg rounded">
-                        <div class="card-body ">
-                            <h5 class="card-title">{{$course->name}}</h5>
-                            <p class="card-text text-grey">
-                                {{$course->subject}}
-                            </p>
-                            <p class="card-text text-grey">
-                                {{$course->content}}
-                            </p>
-                            <p class="card-text text-grey">
-                                Price {{$course->price}}
-                            </p>
-
-                            <a href="{{$course->URL}}/{{$course->id}}" class="btn btn-success ">Register here</a>
-                        </div>
-
-                    </div>
-                @endforeach
+                <div id="calendar"></div>
             </div>
 
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar')
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: @json($events),
+            })
+            calendar.render()
+        });
+
+
+
+
+    </script>
+
 
 
 @endsection
