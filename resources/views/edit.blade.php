@@ -5,7 +5,8 @@
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script><link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js" integrity="sha512-qzgd5cYSZcosqpzpn7zF2ZId8f/8CHmFKZ8j7mU4OUXTNRd5g+ZHBPsgKEwoqxCtdQvExE5LprwwPAgoicguNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @extends('layouts.app')
 @section('content')
     <script src="{{ asset('js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
@@ -18,7 +19,7 @@
                 <div class="card">
                     <div class="card-header">
                         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,9 +33,9 @@
                                     <li class="nav-item">
                                         <a href="#" id = "mass-course-email" class="nav-link" >Email Course</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#" id = "custom-email-template" class="nav-link" >Email Customiser</a>
-                                    </li>
+{{--                                    <li class="nav-item">--}}
+{{--                                        <a href="#" id = "custom-email-template" class="nav-link" >Email Customiser</a>--}}
+{{--                                    </li>--}}
                                     <li class="nav-item">
                                         <a href="#" id = "search-course" class="nav-link" >Search Course</a>
                                     </li>
@@ -54,7 +55,9 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <input id="Search" type="text" class="form-control @error('Search') is-invalid @enderror" name="Search" value="{{ old('Search Student') }}" required autocomplete="email" autofocus>
-                                        <button id="clearSearch" class="btn btn-outline-secondary" type="button">Clear Filter</button>
+                                        <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="submit" class="Search btn btn-primary" style = "margin-left:10px; border-bottom-left-radius:10px;">{{ __('Search') }}
+                                        <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"id="clearSearch" class="btn btn-danger" style = "margin-left:10px; border-bottom-left-radius:10px;" type="button">Search again?</button>
+                                        </button>
                                     </div>
                                     @error('Search')
                                     <span class="invalid-feedback" role="alert">
@@ -64,11 +67,11 @@
                                 </div>
                             </div>
                             <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="Search btn btn-primary">
-                                        {{ __('Search') }}
-                                    </button>
-                                </div>
+{{--                                <div class="col-md-8 offset-md-4">--}}
+{{--                                    <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="submit" class="Search btn btn-primary">--}}
+{{--                                        {{ __('Search') }}--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
                             </div>
                         </form>
                     </div>
@@ -76,7 +79,7 @@
                     <div class="card-body results" style = "display: none;">
                         <div class="row mb-3">
 
-                        <h4 class="text-center">This is Student results below</h4>
+                        <h4 class="text-center student-result-text">This is Student results below</h4>
 
                             <table id="mt" class="table table-hover">
                                 <thead>
@@ -88,10 +91,13 @@
                                     <th>Sms</th>
                                     <th>Create sumup link</th>
 {{--                                    <th>Create invoice</th>--}}
-                                    <th>Upload cert</th>
-                                    <th>Create cert</th>
+                                    <th> </th>
 
-
+                                    <th>Show cert</th>
+                                    <th>Irish cert</th>
+                                    <th>Legal cert</th>
+                                    <th>Day 1 cert</th>
+                                    <th>Day 2 cert</th>
                                 </tr>
 
                                 </thead>
@@ -110,7 +116,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title student-name"> </h5>
 
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
 
@@ -280,8 +286,8 @@
                                 Student data saved
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary save-edit">Save changes</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;"style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary save-edit">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -308,10 +314,6 @@
                                         </div>
                                         <label for="course-date" class="col-md-4 col-form-label text-md-end">{{ __('Course date') }}</label>
 
-                                        <div class="col-md-6">
-                                            <input id="course-date" type="date" class="form-control" name="course-date">
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -319,8 +321,8 @@
                                 SMS sent
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary save-email-data">Save</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary save-email-data">Save</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -363,8 +365,8 @@
                                 SMS sent
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary save-sms-send">Send SMS</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary save-sms-send">Send SMS</button>
                             </div>
                         </div>
                     </div>
@@ -405,8 +407,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary send-mass-email">Send Email</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary send-mass-email">Send Email</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
 
@@ -428,7 +430,7 @@
                                 <input id="price" type="number" class="form-control" name="price">
                             </div>
                             <div class="col-md-6">
-                                <input id="student-id" type="text" class="student-id" name="student-id">
+                                <input id="student-id" type="hidden" class="student-id" name="student-id">
                             </div>
                             <label for="email-Sumup" class="col-md-4 col-form-label text-md-end">{{ __('Email ') }}</label>
 
@@ -440,8 +442,8 @@
                             Link created and sent
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary create-link">Create link</button>
-                            <button type="button" class="btn btn-secondary course-close" data-dismiss="modal"aria-label="Close">Close</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary create-link">Create link</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary course-close" data-dismiss="modal"aria-label="Close">Close</button>
                         </div>
                     </div>
                 </div>
@@ -465,13 +467,18 @@
                                 <div class="col-md-6">
                                     <input id="subject-course" type="text" class="form-control" name="subject-course">
                                 </div>
+                                <label for="subject-date" class="col-md-6 col-form-label text-md-end">{{ __('Date of course') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="subject-date" type="date" class="form-control" name="subject-date">
+                                </div>
                             </div>
                             <div class="alert alert-success course-created text-center" role="alert" style="display: none;">
                                 Course Added
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary save-course">Create course</button>
-                                <button type="button" class="btn btn-secondary course-close" data-dismiss="modal"aria-label="Close">Close</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary save-course">Create course</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary course-close" data-dismiss="modal"aria-label="Close">Close</button>
                             </div>
                         </div>
                     </div>
@@ -485,7 +492,7 @@
                         <div class="modal-body">
                             <div class="input-group mb-3">
                                 <input id="search-course-name" type="text" class="form-control" name="course-name">
-                                <button class="btn btn-danger" type="button" id="clear-search">
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"class="btn btn-danger" type="button" id="clear-search">
                                     <i class="fas fa-times">X</i>
                                 </button>
                             </div>
@@ -493,9 +500,12 @@
                         <div class="alert alert-success course-searched-data col-md-12" role="alert" style="display: none;">
                             <!-- Your alert content here -->
                         </div>
+                        <div class="alert alert-danger course-searched-data-fail col-md-12" role="alert" style="display: none;">
+                            <!-- Your alert content here -->
+                        </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary search-course-btn">Search</button>
-                            <button type="button" class="btn btn-secondary search-course-close" data-dismiss="modal" aria-label="Close">Close</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary search-course-btn">Search</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary search-course-close" data-dismiss="modal" aria-label="Close">Close</button>
                         </div>
                     </div>
                 </div>
@@ -529,14 +539,20 @@
                                     <input id="Edit-course-content" type="text" class="form-control" name="Edit-course-content">
                                 </div>
 
+                                <div class="col-md-12">
+                                    <label for="edit-course-date" class="col-md-12 col-form-label ">{{ __('Edit Course Date') }}</label>
+
+                                    <input id="edit-course-date" type="date" class="form-control" name="edit-course-date">
+                                </div>
+
                             </div>
                             <div class="alert alert-success course-searched-data-saved col-md-12" role="alert" style="display: none;">
 
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary Edit-course-btn">Save</button>
-                                <button type="button" class="btn btn-secondary edit-search-course-close" data-dismiss="modal"aria-label="Close">Close</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary Edit-course-btn">Save</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary edit-search-course-close" data-dismiss="modal"aria-label="Close">Close</button>
                             </div>
                         </div>
                     </div>
@@ -568,8 +584,8 @@
                                 Post Added
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary save-post">Create post</button>
-                                <button type="button" class="btn btn-secondary post-close" data-dismiss="modal"aria-label="Close">Close</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary save-post">Create post</button>
+                                <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary post-close" data-dismiss="modal"aria-label="Close">Close</button>
                             </div>
                         </div>
                     </div>
@@ -621,51 +637,12 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary export">Export</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-primary export">Export</button>
+                            <button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"type="button" class="btn btn-secondary export-close">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-                <div class="modal" id = "cert-portal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Upload Cert</h5>
-
-                            </div>
-                            <div class="modal-body">
-                                <form  action="{{ route('FileUpload') }}" method="POST" enctype="multipart/form-data" >
-                                    @csrf <!-- {{ csrf_field() }} -->
-                                    <input type="file" name="Cert" class="form-control"/>
-                                    <input type="hidden" class = "student-cert-id" name="student-cert-id" class="form-control"/>
-
-                                    <button type="submit" class="btn btn-primary cert-upload pt-2" >Upload cert</button>
-
-                                    <div class="col-12">
-                                        <span >Would you like to send email when and link when uploaded?</span>
-                                        <input name="send-upload-email-cert" type="checkbox" value="1" id="flexCheckDefault">
-
-                                    </div>
-
-                                </form>
-                            </div>
-                            @isset($successMessage)
-                            <div class="alert alert-success text-center" role="alert" >
-                                {{$successMessage}}
-                            </div>
-                            @endisset
-                            @isset($errorMessage)
-                            <div class="alert alert-danger text-center" role="alert" >
-                                {{$errorMessage}}
-                            </div>
-                            @endisset
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-secondary close-cert-portal" data-dismiss="modal">Close</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
 @endsection
@@ -689,8 +666,13 @@
 <script>
 
     $( document ).ready(function() {
-        $( ".Search" ).click(function(e) {
+        $( ".Search" ).on('click',function(e){
             e.preventDefault();
+            $('tr').show();
+            $('td').show();
+
+            $('.Search').hide();
+            $('.student-result-text').show();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -703,20 +685,26 @@
                 data:{search:search},
                 success:function(data){
                     $('.results').fadeIn();
-                    var json = JSON.parse(data);
-                    for (let i = 0; i < json.length; i++) {
-                        var studentId =  '<input type = "hidden" value = "'+json[i]['id']+'" class="get-id"> ';
+                    if (data) {
+                        var tempTable = $('.results').html();
+                        var json = JSON.parse(data);
 
-                        var stundeditIcon = '<img class ="edit-student"src="/Icons/edit.png" style = "max-height:25px;" >';
-                        var sendSMS = '<img class ="send-sms" src="/Icons/sms-icon.svg" style = "max-height:25px;" >';
-                        var fileupload = '<img class ="upload-file" src="/Icons/upload.svg" style = "max-height:25px;" >';
-                        var createIrishCert = '<img class ="create-cert" src="/Icons/cert.png" style = "max-height:25px;" >';
-                        var sumpUp = '<img class ="create-sum-up-link" src="/Icons/Sumpup.png" style = "max-height:25px;" >';
-                        var wave = '<img class ="wave" src="/Icons/wave.png" style = "max-height:25px;" >';
-                        var row = $('<tr><td >'+json[i]['id']+'</td><td>'+json[i]['name']+'</td><td>'+json[i]['email']+'</td><td> '+stundeditIcon+' </td><td> '+sendSMS+' </td><td> '+sumpUp+' </td> <td> '+studentId+' </td><td> '+fileupload+' </td><td> '+createIrishCert+' </td></td></tr>');
+                        for (let i = 0; i < json.length; i++) {
+                            var studentId = '<input type = "hidden" value = "' + json[i]['id'] + '" class="get-id"> ';
 
-                        $("#mt > tbody").append(row);
+                            var stundeditIcon = '<img class ="edit-student"src="/Icons/edit.png" style = "max-height:25px;" >';
+                            var sendSMS = '<img class ="send-sms" src="/Icons/sms-icon.svg" style = "max-height:25px;" >';
+                            var fileupload = '<input class ="upload-file" type="checkbox"  style = "max-height:25px;" > ';
+                            var createIrishCert = '<img class ="create-cert" src="/Icons/cert.png" style = "max-height:25px;" >';
+                            var createLegalCert = '<img class ="create-legal-cert" src="/Icons/cert.png" style = "max-height:25px;" >';
+                            var createDay1Cert = '<img class ="create-day1-cert" src="/Icons/cert.png" style = "max-height:25px;" >';
+                            var createDay2Cert = '<img class ="create-day2-cert" src="/Icons/cert.png" style = "max-height:25px;" >';
+                            var sumpUp = '<img class ="create-sum-up-link" src="/Icons/Sumpup.png" style = "max-height:25px;" >';
+                            var wave = '<img class ="wave" src="/Icons/wave.png" style = "max-height:25px;" >';
+                            var row = $('<tr><td >' + json[i]['id'] + '</td><td>' + json[i]['name'] + '</td><td>' + json[i]['email'] + '</td><td> ' + stundeditIcon + ' </td><td> ' + sendSMS + ' </td><td> ' + sumpUp + ' </td> <td> ' + studentId + ' </td><td> ' + fileupload + ' </td><td> ' + createIrishCert + ' </td><td> ' + createLegalCert + ' </td><td> ' + createDay1Cert + ' </td> <td> ' + createDay2Cert + ' </td></tr>');
 
+                            $("#mt > tbody").append(row);
+                        }
                     }
                 }
             });
@@ -774,15 +762,13 @@
 
 
         });
-        tinymce.init({
-            selector: 'textarea#Edit-course-subject', // Replace this CSS selector to match the placeholder element for TinyMCE
-            plugins: 'code table lists',
-            toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
-        });
-        $('#clearSearch').on('click', function() {
-            // Clear the value of Search input
-            $('#Search').val('');
-        });
+        // tinymce.init({
+        //     selector: 'textarea#Edit-course-subject', // Replace this CSS selector to match the placeholder element for TinyMCE
+        //     plugins: 'code table lists',
+        //     toolbar: 'undo redo | formatselect| bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+        // });
+
+
 
         $(document).on('click','.save-edit',function(e){
             $.ajaxSetup({
@@ -977,11 +963,14 @@
             var courseName = $(this).closest('.row').find('.course-name').first();
             var courseSubject = $(this).closest('.row').find('.course-subject').first().val();
             var courseContent = $(this).closest('.row').find('.course-content').first().val();
+            var courseDate = $(this).closest('.row').find('.course-date').first().val();
             var courseName = courseName.val();
+            console.log(courseDate);
             $('#Edit-course-name').val(courseName);
             $('#Edit-course-subject').text(courseSubject);
             $('#Edit-course-content').val(courseContent);
-            $('#edit-search-courses #Edit-course-content').val(sessionStorage.getItem('courseContent'));
+            $('#edit-course-date').val(courseDate);
+            $('#edit-search-courses #Edit-course-content').val($('.course-content').val());
 
         });
 
@@ -1000,6 +989,7 @@
             });
             e.preventDefault();
             $('.course-searched-data').show();
+            $(this).hide();
 
             $.ajax({
                 type:'POST',
@@ -1010,16 +1000,26 @@
                 },
                 success:function(courses){
                     var json = JSON.parse(courses);
+                    if (json.length > 0) {
+                        for (let i = 0; i < json.length; i++) {
+                            $('#Edit-course-content').val(json[i]['content']);
+                            $('#Edit-course-subject').val(json[i]['subject']);
+                            $('#edit-course-date').val(json[i]['courseDate']);
 
-                    for (let i = 0; i < json.length; i++) {
 
-                        $('.course-searched-data').append('<input type="hidden" value = "'+json[i]['id']+'" name = "id" class = "course-id col-4">  ');
-                        $('.course-searched-data').append('<div class="row"><div class="col-4"> <input type="text" value="' + json[i]['name'] + '" name="name" class="form-control course-name"> \n' +
-                            '</div> <div class="col-4"> <input type="button" class="btn btn-success form-control mb-4 edit-course" value = "Edit" >\n' +
-                            '<input type="hidden" value="' + json[i]['subject'] + '" name="name" class="form-control course-subject"> \n' +
-                            '<input type="hidden" value="' + json[i]['content'] + '" name="name" class="form-control course-content">\n' +
-                            '</div> </div>');
 
+                            $('.course-searched-data').append('<input type="hidden" value = "'+json[i]['id']+'" name = "id" class = "course-id col-4">  ');
+                            $('.course-searched-data').append('<div class="row"><div class="col-4"> <input type="text" value="' + json[i]['name'] + '" name="name" class="form-control course-name"> \n' +
+                                '</div> <div class="col-4"> <input type="button" class="btn btn-success form-control mb-4 edit-course" value = "Edit" >\n' +
+                                '<input type="hidden" value="' + json[i]['subject'] + '" name="name" class="form-control course-subject"> \n' +
+                                '<input type="hidden" value="' + json[i]['content'] + '" name="name" class="form-control course-content">\n' +
+                                '<input type="hidden" value="' + json[i]['courseDate'] + '" name="name" class="form-control course-date">\n' +
+                                '</div> </div>');
+
+                        }
+                    } else {
+                        $('.course-searched-data').hide();
+                        $('.course-searched-data-fail').show().text('No courses found for '+ $('#search-course-name').val());
                     }
 
                 }
@@ -1027,9 +1027,6 @@
 
         });
 
-        $('#clear-search').on('click', '#clear-search', function () {
-            alert();
-        })
 
         $(document).on('click','.Edit-course-btn',function(e){
             $.ajaxSetup({
@@ -1046,7 +1043,8 @@
                 data:{
                     courseName:$('#Edit-course-name').val(),
                     courseSubject:$('#Edit-course-subject').val(),
-                    courseContent:$('#Edit-course-content').val()
+                    courseContent:$('#Edit-course-content').val(),
+                    courseDate:$('#edit-course-date').val()
 
                 },
                 success:function(editedCourse){
@@ -1172,7 +1170,25 @@
         $(document).on('click','.search-course-close',function(e){
 
             $('#search-courses').modal('hide');
+            $('.course-name').val('');
+            $('#search-course-name').val('');
+            $('#Edit-course-name').val('');
+            $('#Edit-course-content').val('');
+            $('.course-searched-data').html('');
+            $('.course-searched-data').hide();
+            $('.course-content').val('');
+            $('.search-course-btn').show();
+            $('.course-searched-data-fail').hide();
 
+
+        });
+
+        $(document).on('click','#clearSearch',function(e){
+            $('td').hide('');
+            $('tr').hide('');
+            $('.student-result-text').hide();
+            $('.Search').show();
+            $('#Search').val('');
 
         });
 
@@ -1184,31 +1200,42 @@
             $('#Edit-course-content').val('');
             $('.course-searched-data').html('');
             $('.course-searched-data').hide();
+            $('.course-content').val('');
+            $('.search-course-btn').show();
+            $('.course-searched-data-fail').hide();
 
 
         });
         $(document).on('click','.edit-search-course-close',function(e){
-                 sessionStorage.setItem('courseContent',$('#Edit-course-content').val());
                 $('#edit-search-courses').modal('hide');
                 $('.course-searched-data-saved').hide();
+                $('.course-content').val($('#Edit-course-content').val());
+                $('.course-date').val($('#edit-course-date').val());
 
         });
 
+
         $(document).on('click','.upload-file',function(e){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            e.preventDefault();
+            alert('This will send an email to the student');
             var id = $(this).closest('tr').find('.get-id').val();
             $('#st-id').val(id);
             $('.student-cert-id').val(id);
-            console.log($('#st-id').val(id));
-
-            $('#cert-portal').modal('show');
-
-
-
-        });
-        $(document).on('click','.close-cert-portal',function(e){
-
-            $('#cert-portal').modal('hide');
-
+            $.ajax({
+                type:'POST',
+                url:"/uploadcert",
+                data:{
+                    id:id
+                },
+                success:function(course){
+                    $('.course-created').fadeIn().delay(1000).fadeOut();
+                }
+            });
 
         });
 
@@ -1258,12 +1285,14 @@
             $('#create-course').modal('show');
             var courseName = $('#course-name').val();
             var subjectCourse = $('#subject-course').val();
+            var subjectDate = $('#subject-date').val();
             $.ajax({
                 type:'POST',
                 url:"/view-course",
                 data:{
                     courseName:courseName,
                     subjectCourse:subjectCourse,
+                    subjectDate:subjectDate,
                 },
                 success:function(course){
                     $('.course-created').fadeIn().delay(1000).fadeOut();
@@ -1317,6 +1346,16 @@
 
         });
 
+        $(document).on('click','.export-close',function(e){
+
+            $('#export-to-csv').modal('hide');
+            $('#course-select-export').val('').trigger('change');
+            $('#student-export-table tr').remove();
+            $('.csv-header').text('');
+
+
+        });
+
         $(document).on('change','#course-select-export',function(e){
             $.ajaxSetup({
                 headers: {
@@ -1325,7 +1364,7 @@
             });
             e.preventDefault();
             var options = $(this).val()
-
+            $('#student-export-table tr').remove();
 
             $.ajax({
                 type:'POST',
@@ -1334,18 +1373,17 @@
                     courseSelectName : options,
                 },
                 success:function(studenttoExport){
+
                     $('.export-results').show();
                     var count = 1;
                     var json = JSON.parse(studenttoExport);
                     $('.csv-header').html('Students on course '+json[0]['courseModule']);
-                    for (let i = 0; i < json.length; i++) {
 
+                    for (let i = 0; i < json.length; i++) {
                         var studentId =  '<input type = "hidden" value = "'+json[i]['id']+'" class="get-id"> ';
                         var row = $('<tr><td><input class=" studentInfoExport text-center" type="checkbox" value="'+json[i]['id']+'" name="studentInfoExport[]" checked/></td><td>'+json[i]['id']+'</td><td>'+json[i]['name']+'</td><td>'+json[i]['email']+'</td><td>'+json[i]['courseModule']+'</td></tr>');
                         $('.st-count').html('('+count++ +')');
-
                         $("#student-export-table > tbody").append(row);
-
                     }
                 }
             });
@@ -1384,7 +1422,7 @@
                     $('.csv-header').html('Students on course '+json[0]['courseModule']);
                     for (let i = 0; i < json.length; i++) {
 
-                        var row = $('<tr><td><input class="form-check-input studentInfoEmail" type="hidden" value="'+json[i]['email']+'"  name="studentInfoEmail[]"  checked> '+json[i]['id']+'</td><td>'+json[i]['name']+'</td><td>'+json[i]['email']+'</td><td><button class="btn-danger remove-email">X</button></td><td>');
+                        var row = $('<tr><td><input class="form-check-input studentInfoEmail" type="hidden" value="'+json[i]['email']+'"  name="studentInfoEmail[]"  checked> '+json[i]['id']+'</td><td>'+json[i]['name']+'</td><td>'+json[i]['email']+'</td><td><button style = "margin-left:10px; border-bottom-left-radius:10px;" style = "margin-left:10px; border-bottom-left-radius:10px;"class="btn-danger remove-email">X</button></td><td>');
                         var newOption = new Option(json[i]['email'], json[i]['email'], false, false);
                         $('.js-example-basic-single').append(newOption).trigger('change');
                     }
@@ -1479,6 +1517,27 @@
                 data:{
                     id:id,
 
+                },
+                success:function(downloadCert){
+                    window.open(downloadCert,'_blank');
+
+                }
+            });
+
+        });
+
+        $(document).on('click','.create-legal-cert',function(e){
+            e.preventDefault();
+
+            alert('Your file will open in a new window');
+            var id = $(this).closest('tr').find('.get-id').val();
+
+
+            $.ajax({
+                type:'POST',
+                url:"/LegalCertGenerator",
+                data:{
+                    id:id,
 
                 },
                 success:function(downloadCert){
@@ -1489,6 +1548,50 @@
 
         });
 
+
+        $(document).on('click','.create-day2-cert',function(e){
+            e.preventDefault();
+
+            alert('Your file will open in a new window');
+            var id = $(this).closest('tr').find('.get-id').val();
+
+
+            $.ajax({
+                type:'POST',
+                url:"/createDay2Cert",
+                data:{
+                    id:id,
+
+                },
+                success:function(downloadCert){
+                    window.open(downloadCert,'_blank');
+
+                }
+            });
+
+        });
+
+        $(document).on('click','.create-day1-cert',function(e){
+            e.preventDefault();
+
+            alert('Your file will open in a new window');
+            var id = $(this).closest('tr').find('.get-id').val();
+
+
+            $.ajax({
+                type:'POST',
+                url:"/createDay1Cert",
+                data:{
+                    id:id,
+
+                },
+                success:function(downloadCert){
+                    window.open(downloadCert,'_blank');
+
+                }
+            });
+
+        });
 
 
     });

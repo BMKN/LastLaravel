@@ -17,54 +17,16 @@ class uploadCertController extends Controller
     {
         return view('uploadcert');
     }
-    public function uploadCert(Request $request){
-        $creds = DB::table('aws_details')->where('id', 3)->get()->first();
+    public function showCertAsUploaded(Request $request){
 
         $data = $request->all();
-        $student = User::find($data['student-cert-id']);
-        if ($request->hasFile('Cert')) {
-            $file = $request->file('Cert');
-            $filename = $file->getClientOriginalName();
-            $file->move(public_path('/Uploads'), $filename);
-
-
-            $s3 = new S3Client([
-                'region' => 'eu-west-1',
-                'version' => 'latest',
-                'credentials' => [
-                    'key' => $creds->aws_key,
-                    'secret' => $creds->aws_secret,
-                ]
-            ]);
-            $result = $s3->putObject([
-                'Bucket' => $creds->aws_bucket,
-                'Key' => '/Uploads/' . $filename,
-                'Body' => fopen(public_path('/Uploads/' . $filename), 'r'),
-                'ACL' => 'public-read', //for making the public url
-            ]);
-
-            $student = User::find($data['student-cert-id']);
-            if ($result['ObjectURL']) {
+        $student = User::find($data['id']);
+            if ($data['id']) {
                 $student->cert_Uploaded = 1;
-                $student->aws_link = $result['ObjectURL'] ;
                 $student->save();
-                $successMessage = $filename . ' Has been uploaded Successfully';
-                if(isset($data['send-upload-email-cert']) == "1") {
-                    Mail::to($student->email)->send(new uploadCertEmail($student));
-                    }
-                return view('edit')->with('successMessage', $successMessage);
 
-
-            } else {
-                $errorMessage = $filename . ' Has not uploaded yet';
-                return view('edit')->with('errorMessage', $errorMessage);
+                  //  Mail::to($student->email)->send(new uploadCertEmail($student));
 
             }
-
-
-        }
-
-
-
     }
 }

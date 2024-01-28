@@ -16,6 +16,14 @@
                             <th> <h4> <span class="badge btn-success"> Mobile</span></h4></th>
                             <th> <h4> <span class="badge btn-success"> Address</span></h4></th>
                             <th> <h4> <span class="badge btn-success">Eircode</span></h4></th>
+                            <th> <h4> <span @if($user->Core >= 70)class="badge btn-success"@endif @if($user->Core < 70) class="badge btn-danger"@endif >Core</span></h4></th>
+                            <th> <h4> <span @if($user->Rodent >= 70)class="badge btn-success"@endif @if($user->Rodent < 70) class="badge btn-danger"@endif >Rodent</span></h4></th>
+                            <th> <h4> <span @if($user->Rabbit >= 70)class="badge btn-success"@endif @if($user->Rabbit < 70) class="badge btn-danger"@endif >Rabbit</span></h4></th>
+                            <th> <h4> <span @if($user->Large_Animal_Aquatic >= 70)class="badge btn-success"@endif @if($user->Large_Animal_Aquatic < 70) class="badge btn-danger"@endif >Large Animal Aquatic</span></h4></th>
+                            <th> <h4> <span @if($user->Wildlife_terrestrial >= 70)class="badge btn-success"@endif @if($user->Wildlife_terrestrial < 70) class="badge btn-danger"@endif >Wildlife terrestrial</span></h4></th>
+                            <th> <h4> <span @if($user->Wildlife_Aquatic >= 70)class="badge btn-success"@endif @if($user->Wildlife_Aquatic < 70) class="badge btn-danger"@endif >Wildlife Aquatic</span></h4></th>
+                            <th> <h4> <span @if($user->Lab >= 70)class="badge btn-success"@endif @if($user->Lab < 70) class="badge btn-danger"@endif >Lab </span></h4></th>
+                            <th> <h4> <span @if($user->Pigs >= 70)class="badge btn-success"@endif @if($user->Pigs < 70) class="badge btn-danger"@endif >Pigs </span></h4></th>
                             @if($user->cert_Uploaded == 1)
                             <th> <h4> <span class="badge btn-success">Download cert</span></h4></th>
                             @endif
@@ -32,6 +40,14 @@
                             <th> {{$user->MobileNumber}}</th>
                             <th> {{$user->addressLine1}} {{$user->addressLine2}} </th>
                             <th> {{$user->eirCode}}  </th>
+                            <th> {{$user->Core}}  </th>
+                            <th> {{$user->Rodent}}  </th>
+                            <th> {{$user->Rabbit}}  </th>
+                            <th> {{$user->Large_Animal_Aquatic}}  </th>
+                            <th> {{$user->Wildlife_terrestrial}}  </th>
+                            <th> {{$user->Wildlife_Aquatic}}  </th>
+                            <th> {{$user->Lab}}  </th>
+                            <th> {{$user->Pigs}}  </th>
 
                             @if($user->cert_Uploaded == 1)
                             <th> <a href="{{$user->aws_link}}" target="_blank">Download cert here</a> </th>

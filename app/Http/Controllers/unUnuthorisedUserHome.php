@@ -23,15 +23,14 @@ class unUnuthorisedUserHome extends Controller
     public function courses()
     {
 
-        $courses = DB::select("SELECT * from customEmailTemplates
-                    Join course on customEmailTemplates.course_id = course.id
-                    where customEmailTemplates.email_date >= CURDATE()");
+        $courses = DB::select("SELECT * from course where courseDate >= CURDATE()");
+
 
         if ($courses) {
             foreach ($courses as $course) {
                 $events[] = [
                     'title' => $course->name . ' (' . $course->name . ')',
-                    'start' => $course->email_date,
+                    'start' => $course->courseDate,
                     'url' => $course->URL . '/' . $course->id
                 ];
             }

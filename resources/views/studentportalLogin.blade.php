@@ -21,10 +21,10 @@
             </thead>
             <tbody>
             <tr>
-               <th> {{$user->module_0}}</th>
-               <th> {{$user->module_1}}</th>
-               <th> {{$user->module_2}}</th>
-               <th> {{$user->module_3}}</th>
+               <th> {{$user->Core}}</th>
+               <th> {{$user->Rodent}}</th>
+               <th> {{$user->Rabbit}}</th>
+               <th> {{$user->Large_Animal_Aquatic}}</th>
                <th> {{$user->module_4}}</th>
             </tr>
             </tbody>

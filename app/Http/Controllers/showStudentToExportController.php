@@ -12,6 +12,7 @@ class showStudentToExportController extends Controller
     public function getStudentsToExport(Request $request){
         $data =   $request->all();
 
+
         if ($data) {
             $course = $data['courseSelectName'];
             $students = DB::table('users')->where('courseModule', $course)->get()->toArray();

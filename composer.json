@@ -9,6 +9,7 @@
         "aws/aws-sdk-php": "^3.235",
         "calcinai/php-imagick": "^0.1.2",
         "convertapi/convertapi-php": "^1.6",
+        "doctrine/dbal": "^3.7",
         "elibyy/tcpdf-laravel": "^9.3",
         "guzzlehttp/guzzle": "^7.2",
         "jorgenwdm/laravel-barcode": "dev-main",

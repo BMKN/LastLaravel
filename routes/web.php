@@ -68,8 +68,14 @@ Route::middleware([checkLogin::class])->group(function(){
         Route::get('/personalInfoedit', [App\Http\Controllers\personInfoController::class, 'showPersonalInfo'])->name('shoeStudentsToExport');
         Route::post('/personalInfoedit', [App\Http\Controllers\personInfoController::class, 'editStudentInfo']);
         Route::get('/uploadcert', [App\Http\Controllers\uploadCertController::class, 'imageUpload'])->name('image.upload');
-        Route::post('/uploadcert', [App\Http\Controllers\uploadCertController::class, 'uploadCert'])->name('FileUpload');
+        Route::post('/uploadcert', [App\Http\Controllers\uploadCertController::class, 'showCertAsUploaded'])->name('FileUpload');
         Route::post('/IrishCert', [App\Http\Controllers\certGeneratorController::class, 'createIrishCert']);
+        Route::post('/LegalCertGenerator', [App\Http\Controllers\certGeneratorController::class, 'createLegalCert']);
+        Route::get('/LegalCertGenerator', [App\Http\Controllers\certGeneratorController::class, 'returnLegalCert']);
+        Route::post('/createDay1Cert', [App\Http\Controllers\certGeneratorController::class, 'createDay1Cert']);
+        Route::get('/createDay1Cert', [App\Http\Controllers\certGeneratorController::class, 'returnDay1']);
+        Route::post('/createDay2Cert', [App\Http\Controllers\certGeneratorController::class, 'createDay2Cert']);
+        Route::get('/createDay2Cert', [App\Http\Controllers\certGeneratorController::class, 'returnDay2']);
         Route::get('/IrishCert', [App\Http\Controllers\certGeneratorController::class, 'returnCert']);
         Route::post('/email-mass', [App\Http\Controllers\send_Email_to_course::class, 'createIrishCert']);
         Route::get('/email-mass', [App\Http\Controllers\send_Email_to_course::class, 'returnCert']);

@@ -59,10 +59,10 @@ class updateStudentController extends Controller
         $Student->addressLine2 = $addressLine2 ;
         $Student->Country = $Country ;
         $Student->eirCode = $eirCode ;
-        $Student->module_0 = $module0 ;
-        $Student->module_1 = $module1 ;
-        $Student->module_2 = $module2 ;
-        $Student->module_3 = $module3 ;
+        $Student->Core = $module0 ;
+        $Student->Rodent = $module1 ;
+        $Student->Rabbit = $module2 ;
+        $Student->Large_Animal_Aquatic = $module3 ;
           $Student->course_module = $course_module ;
           $Student->pain_module = $pain_module ;
           $Student->uk_legal = $uk_legal ;
